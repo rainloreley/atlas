@@ -1,0 +1,38 @@
+.mainbody {
+    height: calc(100% - 4rem);
+}
+
+.playingbg {
+    background: repeating-linear-gradient(
+            45deg,
+            #606dbc,
+            #606dbc 10px,
+            #465298 10px,
+            #465298 20px
+    );
+    background-size: 200% 200%;
+    animation: movingplayingbars 7s linear infinite;
+}
+
+.loadedbg {
+    background: repeating-linear-gradient(
+            45deg,
+            #606dbc,
+            #606dbc 10px,
+            #465298 10px,
+            #465298 20px
+    );
+    background-size: 200% 200%;
+}
+
+@keyframes movingplayingbars {
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.maincontrolsgrid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit, 186px);
+}

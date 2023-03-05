@@ -1,0 +1,78 @@
+/* styles.css */
+
+/* Add styles here to customize the appearance of your app */
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src:url("./fonts/Roboto-Regular.ttf");
+}
+
+html, body {
+    height: 100%;
+    background-color: #000;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+body {
+    margin: 0;
+}
+
+#connectionestablishedwindow {
+    display: none;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(90deg, rgba(49,224,9,1) 0%, rgba(196,240,153,1) 35%, rgba(0,255,124,1) 100%);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#noconnectionwindow {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 25s ease infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#videoplayerwindow {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+#videoplayer {
+    pointer-events: none;
+    outline: none !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+}
+
+h1 {
+    font-size: 100px;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
