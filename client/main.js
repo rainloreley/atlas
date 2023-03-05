@@ -52,7 +52,7 @@ app.on('window-all-closed', function () {
 
 ipcMain.handle("get-video-data-foldername", async (_) => {
   const userDataFolder = electron.app.getPath("videos");
-  const videoDataFolder = path.join(userDataFolder, "avronvideos")
+  const videoDataFolder = path.join(userDataFolder, "atlasvideos")
   if (!fs.existsSync(videoDataFolder)) {
     fs.mkdirSync(videoDataFolder);
   }
@@ -61,7 +61,7 @@ ipcMain.handle("get-video-data-foldername", async (_) => {
 
 ipcMain.handle("get-all-videos", async (_) => {
   const userDataFolder = electron.app.getPath("videos");
-  const videoDataFolder = path.join(userDataFolder, "avronvideos")
+  const videoDataFolder = path.join(userDataFolder, "atlasvideos")
   const allFiles = fs.readdirSync(videoDataFolder);
   var videos = [];
   for (var file of allFiles) {

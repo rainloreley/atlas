@@ -316,7 +316,7 @@ export default function Home() {
     return (
         <>
           <Head>
-            <title>Avron - Controller</title>
+            <title>Atlas - Controller</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
           </Head>
@@ -325,7 +325,7 @@ export default function Home() {
                 <div id={"header"} className={"w-full h-16 border-b border-gray-400 dark:border-gray-600 flex items-center justify-between px-4"}>
                     <div className={"flex items-center"}>
                         <Youtube />
-                        <h1 className={"mx-4 font-bold"}>Avron - Remote Video Controller</h1>
+                        <h1 className={"mx-4 font-bold"}>Atlas - Remote Video Controller</h1>
                     </div>
                     <div className={"flex items-center"}>
                         {isConnected ? <p className={"mx-4 text-gray-500 dark:text-gray-400"}>Verbunden mit {serverIP}</p> : <div>
@@ -388,7 +388,7 @@ export default function Home() {
                     <div id={"control"} style={{width: "60%"}} className={"pl-8"}>
                         <div className={"flex items-center"}>
                             <h1 className={"text-3xl font-bold mr-4"}>Steuerung</h1>
-                            <button className={"h-full"} onClick={() => {setVideoPreviewEnabled(!videoPreviewEnabled)}}>{videoPreviewEnabled ? <EyeOff /> : <Eye />}</button>
+                            <button className={"h-full"} onClick={() => {setVideoPreviewEnabled(!videoPreviewEnabled)}} title={videoPreviewEnabled ? "Vorschau verstecken" : "Vorschau anzeigen"}>{videoPreviewEnabled ? <EyeOff /> : <Eye />}</button>
                         </div>
                         <div id={"controlbody"} className={"flex mt-4"}>
                             <div id={"left"} style={{width: "600px"}}>
@@ -506,7 +506,7 @@ const VideoListCell: FunctionComponent<VideoListCell_Props> = ({video, arrayLeng
     const [moreOptionsOpened, setMoreOptionsOpened] = useState(false);
 
     return (
-        <div className={`p-4 ${isPlaying ? "border border-yellow-600" : video.position < arrayLength - 1 ? "border-b border-gray-600" : ""} `}>
+        <div className={`p-4 ${video.position < arrayLength - 1 ? "border-b border-gray-500 dark:border-gray-600" : ""} ${isPlaying ? "bg-gray-300 dark:bg-gray-800" : ""} `}>
             <div className={`flex items-center justify-between`} key={video.hash}>
                 <div className={"flex items-center w-3/4"}>
 

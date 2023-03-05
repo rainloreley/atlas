@@ -1,5 +1,5 @@
 {
-  "name": "avron-client",
+  "name": "atlas-client",
   "version": "1.0.0",
   "description": "Video Remote Client",
   "main": "main.js",
@@ -9,7 +9,7 @@
     "build:win": "electron-builder build --win",
     "build:linux": "electron-builder build --linux"
   },
-  "repository": "https://github.com/rainloreley/avron",
+  "repository": "https://github.com/rainloreley/atlas",
   "author": "Adrian Baumgart",
   "license": "MIT",
   "devDependencies": {
@@ -17,14 +17,12 @@
     "electron-builder": "^23.6.0"
   },
   "dependencies": {
-    "bson": "^5.0.1",
-    "electron-squirrel-startup": "^1.0.0",
     "ip": "^1.1.8",
     "ws": "^8.12.1"
   },
   "build": {
-    "appId": "dev.abmgrt.avron-remote",
-    "productname": "Avron Client",
+    "appId": "dev.abmgrt.atlas-client",
+    "productName": "Atlas Client",
     "copyright": "Copyright © 2023 Adrian Baumgart",
     "win": {
       "target": "portable"
@@ -34,7 +32,7 @@
     },
     "portable": {
       "unicode": false,
-      "artifactName": "avronremote.exe"
+      "artifactName": "atlasclient.exe"
     }
   }
 }

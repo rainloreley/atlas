@@ -1,8 +1,7 @@
-const { WebSocket, WebSocketServer } = require("ws");
+const { WebSocketServer } = require("ws");
 const ip = require("ip");
 const {ipcRenderer} = require("electron")
 const path = require("path");
-const { deserialize } = require("bson");
 const fs = require("fs")
 
 let videoFolderPath = "";
