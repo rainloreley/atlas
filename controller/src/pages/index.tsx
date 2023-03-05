@@ -344,7 +344,7 @@ export default function Home() {
                             <h1 className={"text-3xl font-bold mr-4"}>Videoliste</h1>
                             {isConnected ?                             <button title={"Videos neu laden"} onClick={() => {sendWSRequest("fetchvideos")}}><DownloadCloud /></button> : <div />}
                         </div>
-                        <div className={"rounded bg-gray-200 dark:bg-gray-900 w-full overflow-y-scroll mb-16"} style={{height: "fit-content"}}>
+                        <div className={"rounded border-4 dark:border-none bg-gray-100 dark:bg-gray-900 w-full overflow-y-scroll mb-16"} style={{height: "fit-content"}}>
                             {videoList.sort((a, b) => a.position - b.position).map((video) => (
                                 <VideoListCell key={video.id} video={video} arrayLength={videoList.length} playVideo={() => {
                                     playVideo(video.id)
@@ -506,7 +506,7 @@ const VideoListCell: FunctionComponent<VideoListCell_Props> = ({video, arrayLeng
     const [moreOptionsOpened, setMoreOptionsOpened] = useState(false);
 
     return (
-        <div className={`p-4 ${video.position < arrayLength - 1 ? "border-b border-gray-500 dark:border-gray-600" : ""} ${isPlaying ? "bg-gray-300 dark:bg-gray-800" : ""} `}>
+        <div className={`p-4 ${video.position < arrayLength - 1 ? "border-b border-gray-500 dark:border-gray-600" : ""} ${isPlaying ? "bg-gray-200 dark:bg-gray-800" : ""} `}>
             <div className={`flex items-center justify-between`} key={video.hash}>
                 <div className={"flex items-center w-3/4"}>
 
@@ -553,10 +553,10 @@ const VideoListCell: FunctionComponent<VideoListCell_Props> = ({video, arrayLeng
             {moreOptionsOpened ? <div id={"moreoptions"} className={"flex justify-end mt-2"}>
                 {!video.isAvailable ? <button><Trash2 stroke={"red"} onClick={deleteVideo} /></button> : <div/>}
                 <div className={"ml-4 border rounded-lg border-gray-400 dark:border-gray-700 flex items-center text-sm"}>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.next ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.next)}}>Next</button>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.repeat ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.repeat)}}>Repeat</button>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.unload ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.unload)}}>Unload</button>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.freeze ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.freeze)}}>Freeze</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.next ? "bg-gray-300 dark:bg-gray-700 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.next)}}>Next</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.repeat ? "bg-gray-300 dark:bg-gray-700 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.repeat)}}>Repeat</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.unload ? "bg-gray-300 dark:bg-gray-700 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.unload)}}>Unload</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.freeze ? "bg-gray-300 dark:bg-gray-700 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.freeze)}}>Freeze</button>
 
                 </div>
             </div> : <div />}
