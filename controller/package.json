@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "buildstatic": "next build && next export"
+    "buildstatic": "next build && next export && chmod +x makerelative.sh && ./makerelative.sh"
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",

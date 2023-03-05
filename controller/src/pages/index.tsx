@@ -322,13 +322,13 @@ export default function Home() {
           </Head>
           <main className={"h-full"}>
             <div id={"frame"} className={"w-full h-full"}>
-                <div id={"header"} className={"w-full h-16 border-b border-gray-600 flex items-center justify-between px-4"}>
+                <div id={"header"} className={"w-full h-16 border-b border-gray-400 dark:border-gray-600 flex items-center justify-between px-4"}>
                     <div className={"flex items-center"}>
                         <Youtube />
                         <h1 className={"mx-4 font-bold"}>Avron - Remote Video Controller</h1>
                     </div>
                     <div className={"flex items-center"}>
-                        {isConnected ? <p className={"mx-4 text-gray-400"}>Connected to {serverIP}</p> : <div>
+                        {isConnected ? <p className={"mx-4 text-gray-500 dark:text-gray-400"}>Verbunden mit {serverIP}</p> : <div>
                             <button className={"h-8 bg-blue-500 rounded-xl text-white font-bold px-4"} onClick={connectToServer}>Verbinden</button>
                             <input className={`rounded-xl mx-4 px-1 ${ipInvalid ? "border border-red-500" : ""}`} placeholder={"192.168.2.10"} value={serverIP} onChange={(e) => {
                                 setIpInvalid(false)
@@ -344,7 +344,7 @@ export default function Home() {
                             <h1 className={"text-3xl font-bold mr-4"}>Videoliste</h1>
                             {isConnected ?                             <button title={"Videos neu laden"} onClick={() => {sendWSRequest("fetchvideos")}}><DownloadCloud /></button> : <div />}
                         </div>
-                        <div className={"rounded bg-gray-900 w-full overflow-y-scroll mb-16"} style={{height: "fit-content"}}>
+                        <div className={"rounded bg-gray-200 dark:bg-gray-900 w-full overflow-y-scroll mb-16"} style={{height: "fit-content"}}>
                             {videoList.sort((a, b) => a.position - b.position).map((video) => (
                                 <VideoListCell key={video.id} video={video} arrayLength={videoList.length} playVideo={() => {
                                     playVideo(video.id)
@@ -392,7 +392,7 @@ export default function Home() {
                         </div>
                         <div id={"controlbody"} className={"flex mt-4"}>
                             <div id={"left"} style={{width: "600px"}}>
-                                <div id={"videoframe"} style={{width: "600px", height: "337px"}} className={`relative flex flex-col justify-between bg-gray-800 rounded-xl ${playingVideo.status == VideoStatus.playing ? styles.playingbg : (playingVideo.status == VideoStatus.loaded || playingVideo.status == VideoStatus.paused) ? styles.loadedbg : ""}`}>
+                                <div id={"videoframe"} style={{width: "600px", height: "337px"}} className={`relative flex flex-col justify-between bg-gray-300 dark:bg-gray-800 rounded-xl ${playingVideo.status == VideoStatus.playing ? styles.playingbg : (playingVideo.status == VideoStatus.loaded || playingVideo.status == VideoStatus.paused) ? styles.loadedbg : ""}`}>
                                     <div/>
                                     {playingVideo.pictureData !== "" && videoPreviewEnabled ?
                                         <div className={"absolute flex justify-center top-0 left-0 bg-black rounded-xl"} style={{width: "600px", height: "337px"}}>
@@ -404,7 +404,7 @@ export default function Home() {
                                     </div>
                                     <div style={{zIndex: "10"}} className={"flex justify-end"}>
                                         <div className={"m-4 bg-black rounded px-2 py-1"}>
-                                            <p>{(() => {
+                                            <p className={"text-white"}>{(() => {
                                                 switch (playingVideo.status) {
                                                     case VideoStatus.none:
                                                         return "Kein Video geladen"
@@ -458,10 +458,10 @@ export default function Home() {
                                 </div> : <div />}
                             </div>
                             <div id={"maincontrols"} className={`ml-4 w-full ${styles.maincontrolsgrid}`}>
-                                <button disabled={playingVideo.video === null} onClick={toggleVideoPlayback} className={"px-6 py-4 h-16 bg-blue-500 rounded-xl font-bold disabled:bg-gray-600"}>
+                                <button disabled={playingVideo.video === null} onClick={toggleVideoPlayback} className={"px-6 py-4 h-16 bg-blue-500 rounded-xl font-bold disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:text-black dark:disabled:text-white text-white"}>
                                     {playingVideo.status == VideoStatus.playing ? "Pausieren" : "Fortsetzen"}
                                 </button>
-                                <button disabled={playingVideo.video === null} onClick={unloadVideo} title={"Entfernt das Video aus der aktuellen Wiedergabe, Bildschirm wird schwarz"} className={"px-6 py-4 h-16 bg-blue-500 rounded-xl font-bold disabled:bg-gray-600"}>
+                                <button disabled={playingVideo.video === null} onClick={unloadVideo} title={"Entfernt das Video aus der aktuellen Wiedergabe, Bildschirm wird schwarz"} className={"px-6 py-4 h-16 bg-blue-500 rounded-xl font-bold disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:text-black dark:disabled:text-white text-white"}>
                                     Entladen
                                 </button>
 
@@ -541,22 +541,22 @@ const VideoListCell: FunctionComponent<VideoListCell_Props> = ({video, arrayLeng
                                     setIsEditingName(true);
                                 }}><Edit3 size={18}/></button>
                             </div>}
-                        <p className={"text-sm italic text-gray-300"}>{video.filename} - {secondsTimeToFormattedString(video.duration)}</p>
+                        <p className={"text-sm italic text-gray-600 dark:text-gray-300"}>{video.filename} - {secondsTimeToFormattedString(video.duration)}</p>
                     </div>
                 </div>
                 <div>
                     <button title={"Mehr Optionen"} className={"mr-3"} onClick={() => setMoreOptionsOpened(!moreOptionsOpened)}>{moreOptionsOpened ? <ChevronUp /> : <ChevronDown />}</button>
-                    <button title={"Laden (ohne Auto-Play)"} className={"mr-3"} onClick={loadVideo}><Monitor stroke={"#aaa"}/></button>
+                    <button title={"Laden (ohne Auto-Play)"} className={"mr-3"} onClick={loadVideo}><Monitor stroke={"#999"}/></button>
                     <button title={"Direkt abspielen"} onClick={playVideo}><Play fill={"green"} stroke={"green"} /></button>
                 </div>
             </div>
             {moreOptionsOpened ? <div id={"moreoptions"} className={"flex justify-end mt-2"}>
                 {!video.isAvailable ? <button><Trash2 stroke={"red"} onClick={deleteVideo} /></button> : <div/>}
-                <div className={"border rounded-lg border-gray-700 flex items-center text-sm"}>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.next ? "bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.next)}}>Next</button>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.repeat ? "bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.repeat)}}>Repeat</button>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.unload ? "bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.unload)}}>Unload</button>
-                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.freeze ? "bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.freeze)}}>Freeze</button>
+                <div className={"ml-4 border rounded-lg border-gray-400 dark:border-gray-700 flex items-center text-sm"}>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.next ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.next)}}>Next</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.repeat ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.repeat)}}>Repeat</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.unload ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.unload)}}>Unload</button>
+                    <button className={`m-1 px-2 py-1 ${video.endingBehavior == VideoEndingAction.freeze ? "bg-gray-300 dark:bg-gray-800 rounded-lg" : ""}`} onClick={() => {setEndingBehavior(VideoEndingAction.freeze)}}>Freeze</button>
 
                 </div>
             </div> : <div />}
