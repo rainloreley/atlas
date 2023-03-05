@@ -1,7 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
-const { WebSocket, WebSocketServer } = require("ws");
 const electron = require("electron");
 const fs = require("fs");
 const crypto = require("crypto");
@@ -25,7 +24,7 @@ function createWindow () {
   mainWindow.loadFile('app/index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -51,18 +50,18 @@ app.on('window-all-closed', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.handle("get-video-data-foldername", async (event) => {
-  const userDataFolder = electron.app.getPath("userData");
-  const videoDataFolder = path.join(userDataFolder, "videos")
+ipcMain.handle("get-video-data-foldername", async (_) => {
+  const userDataFolder = electron.app.getPath("videos");
+  const videoDataFolder = path.join(userDataFolder, "avronvideos")
   if (!fs.existsSync(videoDataFolder)) {
     fs.mkdirSync(videoDataFolder);
   }
   return videoDataFolder
 })
 
-ipcMain.handle("get-all-videos", async (event) => {
-  const userDataFolder = electron.app.getPath("userData");
-  const videoDataFolder = path.join(userDataFolder, "videos")
+ipcMain.handle("get-all-videos", async (_) => {
+  const userDataFolder = electron.app.getPath("videos");
+  const videoDataFolder = path.join(userDataFolder, "avronvideos")
   const allFiles = fs.readdirSync(videoDataFolder);
   var videos = [];
   for (var file of allFiles) {
@@ -81,6 +80,6 @@ ipcMain.handle("get-all-videos", async (event) => {
     });
 
   }
-  const jsonString = JSON.stringify(videos);
-  return jsonString
+
+  return JSON.stringify(videos);
 });

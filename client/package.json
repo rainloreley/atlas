@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build",
-    "build:win": "electron-builder build --win"
+    "build:win": "electron-builder build --win",
+    "build:linux": "electron-builder build --linux"
   },
   "repository": "https://github.com/rainloreley/avron",
   "author": "Adrian Baumgart",
@@ -23,8 +24,13 @@
   },
   "build": {
     "appId": "dev.abmgrt.avron-remote",
+    "productname": "Avron Client",
+    "copyright": "Copyright © 2023 Adrian Baumgart",
     "win": {
       "target": "portable"
+    },
+    "linux": {
+      "target": "flatpak"
     },
     "portable": {
       "unicode": false,

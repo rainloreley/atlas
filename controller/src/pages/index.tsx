@@ -100,10 +100,11 @@ export default function Home() {
                 const splittedMessage = message.split(":")
                 const encodedData = splittedMessage[1];
                 const pictureData = decodeURIComponent(atob(encodedData));
-
-                const _tempPlayingVideoCopy = {... playingVideoRef.current};
-                _tempPlayingVideoCopy.pictureData = pictureData;
-                setPlayingVideo(_tempPlayingVideoCopy);
+                if (playingVideoRef.current.status !== VideoStatus.none) {
+                    const _tempPlayingVideoCopy = {... playingVideoRef.current};
+                    _tempPlayingVideoCopy.pictureData = pictureData;
+                    setPlayingVideo(_tempPlayingVideoCopy);
+                }
             }
             else if (message.startsWith("videoended")) {
                 handleVideoEnd();
