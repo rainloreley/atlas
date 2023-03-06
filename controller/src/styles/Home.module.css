@@ -1,5 +1,5 @@
 .mainbody {
-    height: calc(100% - 4rem);
+    height: calc(100% - 4rem - 4rem);
 }
 
 .playingbg {

@@ -1,13 +1,14 @@
 import Head from 'next/head'
 import {Inter} from 'next/font/google'
 // @ts-ignore
-import {Check, ChevronDown, ChevronUp, Edit3, Monitor, Play, X, Youtube, AlertTriangle, DownloadCloud, Trash2, VideoOff, Eye, EyeOff} from "feather-icons-react";
+import {Check, ChevronDown, ChevronUp, Edit3, Monitor, Play, X, Youtube, AlertTriangle, DownloadCloud, Trash2, VideoOff, Eye, EyeOff, Github, Coffee} from "feather-icons-react";
 import {FunctionComponent, useContext, useState, useEffect, useRef, ChangeEventHandler} from "react";
 import {AppControlContext, NotificationCenterElementStatus} from "@/appContextProvider";
 // @ts-ignore
 import {v4 as uuidv4} from 'uuid';
 import styles from "../styles/Home.module.css"
 import { Buffer } from 'buffer';
+import * as packageinfo from "../../package.json";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,6 +35,8 @@ export default function Home() {
     const [isConnected, setIsConnected] = useState(false);
 
     const [videoList, _setVideoList] = useState<VideoListEntry[]>([]);
+
+    const [easterEggCountdown, setEasterEggCountdown] = useState(10);
 
     // useRef is needed here because videoList is used in an event listener of the websocket
     // event listeners pull the state of the variable on initializing, but don't update them
@@ -338,7 +341,7 @@ export default function Home() {
                         <div className={`w-4 h-4 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`}></div>
                     </div>
                 </div>
-                <div id={"body"} className={`flex w-full m-8 ${styles.mainbody}`}>
+                <div id={"body"} className={`flex w-full p-8 ${styles.mainbody}`}>
                     <div id={"playlist"} style={{width: "40%"}} className={"pr-8 relative overflow-hidden"}>
                         <div className={"flex items-center mb-8"}>
                             <h1 className={"text-3xl font-bold mr-4"}>Videoliste</h1>
@@ -469,6 +472,25 @@ export default function Home() {
                         </div>
                     </div>
 
+                </div>
+                <div id={"footer"} className={"w-full h-16 border-t border-gray-400 dark:border-gray-600 flex justify-between items-center px-4"}>
+                    <div className={"flex items-center text-sm text-gray-600 dark:text-gray-400"}>
+                        <a href={"https://github.com/rainloreley/atlas"} target={"_blank"}><Github /></a>
+                        <p className={"ml-2"}>Version {packageinfo.version}</p>
+                    </div>
+                    <button className={"flex text-sm text-gray-600 dark:text-gray-400"} onClick={() => {
+                        if (easterEggCountdown > 0) {
+                            setEasterEggCountdown(easterEggCountdown - 1)
+                        }
+                        else {
+                            window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                        }
+
+                    }}>
+                        <p className={"mr-2"}>Made with</p>
+                        <Coffee size={20} />
+                        <p className={"ml-2"}>by Adrian Baumgart</p>
+                    </button>
                 </div>
             </div>
           </main>
