@@ -36,7 +36,7 @@ npm run build
 git clone "https://github.com/rainloreley/atlas"
 cd atlas/controller
 npm install
-npm buildstatic
+npm run buildstatic
 ```
 
 ## License
