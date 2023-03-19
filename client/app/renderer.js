@@ -14,6 +14,10 @@ var videoplayingUpdateInterval;
 
 var incomingUploadFileName = "";
 
+var overlayString = "";
+var overlayUpdateInterval;
+var showOverlay = false;
+
 window.onerror = function (msg, url, lineNo, columnNo, error) {
     // ... handle error ...
     console.log(msg);
@@ -82,6 +86,12 @@ window.addEventListener('DOMContentLoaded', () => {
                     const splittedCommand = data.split(":")
                     const time = splittedCommand[1];
                     setTimeInVideo(time);
+                }
+                else if (data == "reloadoverlay") {
+                    loadOverlayFile();
+                }
+                else if (data == "toggleoverlay") {
+                    toggleOverlay();
                 }
             }
             else {
@@ -157,12 +167,19 @@ function fetchVideoData(ws) {
         })
 
         for (var video of jsonArray) {
-            const duration = await loadVideo(video.filename)
-            videoData.push({
-                "hash": video.hash,
-                "filename": video.filename,
-                "duration": duration
-            })
+            console.log(video.filename)
+            /*if (video.filename == "overlay.html") {
+                // overlay file
+                loadOverlayFile();
+            }*/
+            if (video.filename !== "overlay.html") {
+                const duration = await loadVideo(video.filename)
+                videoData.push({
+                    "hash": video.hash,
+                    "filename": video.filename,
+                    "duration": duration
+                })
+            }
         }
 
         // package video data for transport and send it to controller
@@ -170,6 +187,100 @@ function fetchVideoData(ws) {
         const base64 = btoa(encodeURIComponent(jsonString));
         ws.send(`videoarray:${base64}`)
     });
+}
+
+function loadOverlayFile() {
+    ipcRenderer.invoke("read-overlay").then(async (overlayResult) => {
+        overlayString = overlayResult;
+        clearInterval(overlayUpdateInterval);
+        if (overlayString.length !== 0) {
+            overlayUpdateInterval = setInterval(updateOverlay, 1000);
+        }
+    });
+}
+
+function updateOverlay() {
+    const overlayView = document.getElementById("overlayview");
+    overlayView.style.zIndex = "10";
+    let formattedOverlay = overlayString;
+
+    // process overlay
+    const timeMatches = formattedOverlay.match(/\{\d\@(time\@.*?)\}/g);
+
+    if (timeMatches != null) {
+        for (var match of timeMatches) {
+            const removedBrackets = match.toString().replaceAll("{", "").replaceAll("}", "");
+            const splitted = removedBrackets.split("@");
+            const date = new Date();
+            var currentTime = date.getHours().toLocaleString("en-US", {minimumIntegerDigits: 2}) + ":" + date.getMinutes().toLocaleString("en-US", {minimumIntegerDigits: 2})
+            if (splitted.length == 3 && splitted[2] == "s") {
+                currentTime = currentTime + ":" + date.getSeconds().toLocaleString("en-US", {minimumIntegerDigits: 2})
+            }
+
+            formattedOverlay = formattedOverlay.replaceAll(match, currentTime)
+
+        }
+    }
+
+    const countdownMatches = formattedOverlay.match(/\{\d\@(countdown\@.*?)\}/g)
+
+    if (countdownMatches != null) {
+        for (var match of countdownMatches) {
+            try {
+                const removedBrackets = match.toString().replaceAll("{", "").replaceAll("}", "");
+                const splitted = removedBrackets.split("@");
+                const currentDate = new Date();
+                const targetDate = Date.parse(splitted[2]);
+                let secondsUntilTarget = (targetDate - currentDate.getTime()) / 1000;
+                if (secondsUntilTarget < 0) {
+                    secondsUntilTarget = 0;
+                }
+                const resultString = secondsTimeToFormattedString(secondsUntilTarget);
+
+                formattedOverlay = formattedOverlay.replaceAll(match, resultString)
+            }
+            catch {
+                continue;
+            }
+        }
+    }
+
+    overlayView.innerHTML = formattedOverlay;
+}
+
+function toggleOverlay() {
+    if (showOverlay) {
+        showOverlay = false;
+        clearInterval(overlayUpdateInterval);
+        overlayString = "";
+        updateOverlay();
+    }
+    else {
+        showOverlay = true;
+        loadOverlayFile();
+    }
+}
+
+function secondsTimeToFormattedString(seconds) {
+
+    var returnString = "";
+
+    const totalMinutes = Math.floor(seconds / 60);
+    const _seconds = Math.floor(seconds % 60);
+    const _hours = Math.floor(totalMinutes / 60);
+    const _minutes = Math.floor(totalMinutes % 60);
+
+    if (_hours != 0) {
+        returnString = `${_hours.toLocaleString("en-US", {minimumIntegerDigits: 2})}:`
+    }
+    if (_minutes != 0 || (_minutes == 0 && _hours != 0)) {
+        returnString = returnString + `${_minutes.toLocaleString("en-US", {minimumIntegerDigits: 2})}:`
+    }
+    returnString = returnString + `${_seconds.toLocaleString("en-US", {minimumIntegerDigits: 2})}`
+
+    //const _minutes = Math.floor(Math.floor(seconds) / 60).toLocaleString("en-US", {minimumIntegerDigits: 2})
+    //const _seconds = (Math.floor(seconds) - Math.floor(Math.floor(seconds) / 60) * 60).toLocaleString("en-US", {minimumIntegerDigits: 2})
+    return returnString;
 }
 
 function setupVideoplayer() {

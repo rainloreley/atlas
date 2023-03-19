@@ -467,6 +467,16 @@ export default function Home() {
                                 <button disabled={playingVideo.video === null} onClick={unloadVideo} title={"Entfernt das Video aus der aktuellen Wiedergabe, Bildschirm wird schwarz"} className={"px-6 py-4 h-16 bg-blue-500 rounded-xl font-bold disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:text-black dark:disabled:text-white text-white"}>
                                     Entladen
                                 </button>
+                                <button onClick={() => {
+                                    sendWSRequest("toggleoverlay")
+                                }} title={"Schaltet das Textoverlay an/aus"} className={"px-6 py-4 h-20 bg-blue-500 rounded-xl font-bold disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:text-black dark:disabled:text-white text-white"}>
+                                    Overlay umschalten
+                                </button>
+                                <button onClick={() => {
+                                    sendWSRequest("reloadoverlay")
+                                }} title={"Lädt die Overlaydatei neu"} className={"px-6 py-4 h-16 bg-blue-500 rounded-xl font-bold disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:text-black dark:disabled:text-white text-white"}>
+                                    Overlay neu laden
+                                </button>
 
                             </div>
                         </div>

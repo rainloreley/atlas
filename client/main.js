@@ -62,6 +62,15 @@ ipcMain.handle("get-video-data-foldername", async (_) => {
 ipcMain.handle("get-all-videos", async (_) => {
   const userDataFolder = electron.app.getPath("videos");
   const videoDataFolder = path.join(userDataFolder, "atlasvideos")
+
+  const overlayFilePath = path.join(videoDataFolder, "overlay.html")
+  if (!fs.existsSync(overlayFilePath)) {
+    var writeStream = fs.createWriteStream(overlayFilePath);
+    writeStream.write("<p>Bearbeite overlay.html im Videoordner, um das Overlay zu ändern</p>");
+    writeStream.end();
+  }
+
+
   const allFiles = fs.readdirSync(videoDataFolder);
   var videos = [];
   for (var file of allFiles) {
@@ -82,4 +91,17 @@ ipcMain.handle("get-all-videos", async (_) => {
   }
 
   return JSON.stringify(videos);
+});
+
+ipcMain.handle("read-overlay", async (_, args) => {
+  const userDataFolder = electron.app.getPath("videos");
+  const videoDataFolder = path.join(userDataFolder, "atlasvideos")
+  const overlayFilePath = path.join(videoDataFolder, "overlay.html")
+  try {
+    const contents = fs.readFileSync(overlayFilePath, 'utf-8');
+    return contents
+  }
+  catch {
+    return "";
+  }
 });
